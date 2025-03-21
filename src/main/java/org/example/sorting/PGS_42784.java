@@ -25,23 +25,23 @@ public class PGS_42784 {
         System.out.println(Arrays.toString(result));
 
     }
-}
 
-class Solution {
-    public int[] solution(int[] array, int[][] commands) {
-        int[] answer = new int[commands.length];
+    static class Solution {
+        public int[] solution(int[] array, int[][] commands) {
+            int[] answer = new int[commands.length];
 
-        for (int i = 0; i < commands.length; i++) {
-            // 1. array 자르기
-            int[] sub = Arrays.copyOfRange(array, commands[i][0] - 1, commands[i][1]);
+            for (int i = 0; i < commands.length; i++) {
+                // 1. array 자르기
+                int[] sub = Arrays.copyOfRange(array, commands[i][0] - 1, commands[i][1]);
 
-            // 2. 정렬하기
-            Arrays.sort(sub);
+                // 2. 정렬하기
+                Arrays.sort(sub);
 
-            // 3. k번째 값 찾기
-            // commands[i][2] 번째 값
-            answer[i] = sub[commands[i][2] - 1];
+                // 3. k번째 값 찾기
+                // commands[i][2] 번째 값
+                answer[i] = sub[commands[i][2] - 1];
+            }
+            return answer;
         }
-        return answer;
     }
 }
