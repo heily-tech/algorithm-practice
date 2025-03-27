@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 
 /**
@@ -18,34 +17,49 @@ public class BOJ_1874 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
 
-        Deque<Integer> stack = new ArrayDeque<>();
-        ArrayList<String> result = new ArrayList<>();
-        int curr = 1;
+        StringBuilder result = new StringBuilder();
+        OperationStack stack = new OperationStack(result);
+        int currentNum = 1;
         boolean isValid = true;
 
         // 2. 수열 검사
         for (int i = 0; i < N; i++) {
             int input = Integer.parseInt(br.readLine());
 
-            while (curr <= input) {
-                stack.push(curr++);
-                result.add("+");
-            }
+            while (currentNum <= input)
+                stack.push(currentNum++);
 
-            if (stack.peek() == input) {
+            if (stack.peek() != null && stack.peek() == input)
                 stack.pop();
-                result.add("-");
-            } else {
+            else {
                 isValid = false;
                 break;
             }
         }
 
         // 3. 출력 하기
-        if (isValid)
-            for (String op : result)
-                System.out.println(op);
-        else
-            System.out.println("NO");
+        System.out.println(isValid ? result : "NO");
+    }
+
+    // Wrapper Class
+    static class OperationStack {
+        private final Deque<Integer> stack = new ArrayDeque<>();
+        private final StringBuilder sb;
+
+        public OperationStack(StringBuilder sb) {
+            this.sb = sb;
+        }
+
+        public void push(int x) {
+            stack.push(x);
+            sb.append("+\n");
+        }
+        public void pop() {
+            stack.pop();
+            sb.append("-\n");
+        }
+        public Integer peek() {
+            return stack.peek();
+        }
     }
 }
