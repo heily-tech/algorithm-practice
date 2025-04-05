@@ -29,34 +29,26 @@ public class PGS_42586 {
 
     static class Solution {
         public int[] solution(int[] progresses, int[] speeds) {
-            int n = progresses.length;
-            int[] days = new int[n];
-
-            // 1. 각 기능 완료까지 걸리는 날짜 계산
-            for (int i = 0; i < n; i++) {
-                int remaining = 100 - progresses[i];
-                days[i] = (remaining + speeds[i] - 1) / speeds[i];
-            }
-
-            // 2. 배포 계산
-            List<Integer> answer = new ArrayList<>();
-            int prevDay = days[0];
+            List<Integer> result = new ArrayList<>();
+            int prevDay = (100 - progresses[0] + speeds[0] - 1) / speeds[0];
             int count = 1;
 
-            for (int i = 1; i < n; i++) {
-                // 남은 날짜가 이전 날짜보다 작으면 이전 기능과 함께 배포
-                if (days[i] <= prevDay)
+            // 1. 각 기능 완료까지 걸리는 날짜 계산
+            for (int i = 0; i < progresses.length; i++) {
+                int currDay = (100 - progresses[i] + speeds[i] - 1) / speeds[i];
+
+                // 2. 배포 계산
+                if (currDay <= prevDay)
                     count++;
                 else {
-                    // 따로 배포
-                    answer.add(count);
+                    result.add(count);
                     count = 1;
-                    prevDay = days[i];
+                    prevDay = currDay;
                 }
             }
-            answer.add(count);
+            result.add(count);
 
-            return answer.stream().mapToInt(i -> i).toArray();
+            return result.stream().mapToInt(i -> i).toArray();
         }
     }
 }
