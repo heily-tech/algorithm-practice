@@ -16,7 +16,7 @@ public class BOJ_10845 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
 
-        // 2. 큐 구현 (ArrayList)
+        // 2. 큐 구현 (LinkedList)
         Queue<Integer> queue = new LinkedList<>();
         int last = -1;
         for (int i = 0; i < N; i++) {
@@ -47,22 +47,3 @@ public class BOJ_10845 {
         }
     }
 }
-
-/*
-15
-push 1
-push 2
-front
-back
-size
-empty
-pop
-pop
-pop
-size
-empty
-pop
-push 3
-empty
-front
- */
