@@ -1,9 +1,11 @@
+package org.example.hash;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /*
- * 메모리 85000KB
- * 시간 34ms
+ * 메모리 86170KB
+ * 시간 30ms
  */
 
 public class PGS_42576 {
@@ -27,14 +29,11 @@ public class PGS_42576 {
 
             // 2. 참가자 구성
             for (int i = 0; i < participant.length; i++)
-                nonFinisher.put(participant[i], nonFinisher.getOrDefault(participant[i], 0) + 1);
+                 nonFinisher.merge(participant[i], 1, Integer::sum);
 
             // 3. 완주자 검사
             for (int i = 0; i < completion.length; i++)
-                if (nonFinisher.get(completion[i]) == 1)
-                    nonFinisher.remove(completion[i]);
-                else
-                    nonFinisher.put(completion[i], nonFinisher.get(completion[i]) - 1);
+                nonFinisher.compute(completion[i], (key, val) -> val == 1 ? null : val -1);
 
             // 4. 결과 출력
             return nonFinisher.keySet().iterator().next();
