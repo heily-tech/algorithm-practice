@@ -1,13 +1,11 @@
 package org.example.hash;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /*
- * 메모리 83368KB
- * 시간 0.59ms
+ * 메모리 82863KB
+ * 시간 0.55ms
  */
 
 public class PGS_42578 {
@@ -30,24 +28,19 @@ public class PGS_42578 {
     static class Solution {
         public int solution(String[][] clothes) {
             // 1. HashMap 정의
-            Map<String, Integer> combinations = new HashMap<>();
-            Set<String> integrity = new HashSet<>();
-            int total = 1;
+            Map<String, Integer> typeCount = new HashMap<>();
 
-            // 2. 데이터 유효성 검사 (null, 중복 등) 및 데이터 구성
-            for (int i = 0; i < clothes.length; i++) {
-                if (!integrity.add(clothes[i][0]))
-                    continue;
-                combinations.merge(clothes[i][1], 1, Integer::sum);
-            }
+            // 2. 데이터 구성
+            for (String[] item : clothes)
+                typeCount.merge(item[1], 1, Integer::sum);
 
             // 3. 조합 계산
-            for (int count : combinations.values())
+            int total = 1;
+            for (int count : typeCount.values())
                 total *= (count + 1);
-            total--;
 
             // 4. 결과 반환
-            return total;
+            return total - 1;
         }
     }
 }
