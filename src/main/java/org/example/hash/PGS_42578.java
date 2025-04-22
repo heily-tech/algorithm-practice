@@ -25,12 +25,13 @@ public class PGS_42578 {
         System.out.println(result);
     }
 
+
     static class Solution {
         public int solution(String[][] clothes) {
             // 1. HashMap 정의
             Map<String, Integer> typeCount = new HashMap<>();
 
-            // 2. 데이터 구성
+            // 2. 의상 종류별 개수 집계
             for (String[] item : clothes)
                 typeCount.merge(item[1], 1, Integer::sum);
 
