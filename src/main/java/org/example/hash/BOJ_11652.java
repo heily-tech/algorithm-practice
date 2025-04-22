@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /*
- * 메모리 33724KB
- * 시간 316ms
+ * 메모리 31468KB
+ * 시간 296ms
  */
 
 public class BOJ_11652 {
@@ -25,17 +25,20 @@ public class BOJ_11652 {
 
         // 2. 최대 빈도수 구하기
         int maxFreq = 0;
-        for (int freq : cards.values())
-            if (freq > maxFreq)
-                maxFreq = freq;
+        long mostFreqCard = 0;
+        for (Map.Entry<Long, Integer> entry : cards.entrySet()) {
+            long card = entry.getKey();
+            int frequency = entry.getValue();
 
-        // 3. 같은 빈도 중 작은 카드 구하기
-        long minCard = Long.MAX_VALUE;
-        for (long num : cards.keySet())
-            if ((cards.get(num) == maxFreq && num < minCard))
-                minCard = num;
+            if (frequency > maxFreq) {
+                maxFreq = frequency;
+                mostFreqCard = card;
+            } else if (frequency == maxFreq && card < mostFreqCard) {
+                mostFreqCard = card;
+            }
+        }
 
         // 3. 결과 출력
-        System.out.println(minCard);
+        System.out.println(mostFreqCard);
     }
 }
