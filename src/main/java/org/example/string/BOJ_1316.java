@@ -3,10 +3,12 @@ package org.example.string;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashSet;
+import java.util.Set;
 
 /*
- * 메모리 14220KB
- * 시간 100ms
+ * 메모리 14264KB
+ * 시간 104ms
  */
 
 public class BOJ_1316 {
@@ -17,24 +19,23 @@ public class BOJ_1316 {
         int groupCount = 0;
 
         for (int i = 0; i < N; i++) {
-            boolean[] alphabet = new boolean[26];
+            Set<Character> visited = new HashSet<>();
             boolean isGroupWord = true;
 
             String word = br.readLine();
             
             // 2. 그룹 단어 판단
             char prev = 0;
-
             for (int j = 0; j < word.length(); j++) {
                 char curr = word.charAt(j);
 
                 if (curr != prev) {
-                    if (alphabet[curr - 'a']) { // 이전 문자와 다르고, 등장한 적이 있음
+                    if (visited.contains(curr)) { // 이전 문자와 다르고, 등장한 적이 있음
                         isGroupWord = false;
                         break;
                     }
                     // 이전 문자와 다르고, 등장한 적이 없음
-                    alphabet[curr - 'a'] = true;
+                    visited.add(curr);
                 }
                 prev = curr;
             }
