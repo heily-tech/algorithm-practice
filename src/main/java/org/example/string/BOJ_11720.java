@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /*
- * 메모리 14192KB
- * 시간 100ms
+ * 메모리 14308KB
+ * 시간 96ms
  */
 
 public class BOJ_11720 {
@@ -19,7 +19,7 @@ public class BOJ_11720 {
 
         // 2. 문자 합하기
         for (int i = 0; i < N; i++) {
-            sum += Integer.parseInt(String.valueOf(s.charAt(i)));
+            sum += s.charAt(i) - '0';
         }
 
         // 3. 숫자들의 합 출력하기
