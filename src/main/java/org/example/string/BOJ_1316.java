@@ -23,10 +23,9 @@ public class BOJ_1316 {
             String word = br.readLine();
             
             // 2. 그룹 단어 판단
-            char prev = word.charAt(0);
-            alphabet[prev - 'a'] = true;
+            char prev = 0;
 
-            for (int j = 1; j < word.length(); j++) {
+            for (int j = 0; j < word.length(); j++) {
                 char curr = word.charAt(j);
 
                 if (curr != prev) {
