@@ -37,41 +37,41 @@ public class PGS_60057 {
         public String toString() {
             return shortestCompressed + "\n" + minLength;
         }
+    }
 
-        /**
-         * 문자열 s를 unit으로 압축했을 때의 문자열을 반환
-         *
-         * @param s     주어진 문자열
-         * @param unit  압축 단위
-         * @return
-         */
-        private StringBuilder getCompressedString(String s, int unit) {
-            StringBuilder compressed = new StringBuilder();
-            String prev = s.substring(0, unit);
-            int repCount = 1;
+    /**
+     * 문자열 s를 unit으로 압축했을 때의 문자열을 반환
+     *
+     * @param s     주어진 문자열
+     * @param unit  압축 단위
+     * @return
+     */
+    private static StringBuilder getCompressedString(String s, int unit) {
+        StringBuilder compressed = new StringBuilder();
+        String prev = s.substring(0, unit);
+        int repCount = 1;
 
-            // 2. 문자열을 단위 순회하며 압축
-            for (int i = unit; i < s.length(); i += unit) {
-                String curr = s.substring(i, Math.min(i + unit, s.length())); // IndexOutOfBoundsException 방지
+        // 2. 문자열을 단위 순회하며 압축
+        for (int i = unit; i < s.length(); i += unit) {
+            String curr = s.substring(i, Math.min(i + unit, s.length())); // IndexOutOfBoundsException 방지
 
-                if (curr.equals(prev))
-                    repCount++;
-                else {
-                    if (repCount > 1)
-                        compressed.append(repCount);
-                    compressed.append(prev);
+            if (curr.equals(prev))
+                repCount++;
+            else {
+                if (repCount > 1)
+                    compressed.append(repCount);
+                compressed.append(prev);
 
-                    prev = curr;
-                    repCount = 1;
-                }
+                prev = curr;
+                repCount = 1;
             }
-
-            // 3. 마지막 블록 처리
-            if (repCount > 1)
-                compressed.append(repCount);
-            compressed.append(prev);
-
-            return compressed;
         }
+
+        // 3. 마지막 블록 처리
+        if (repCount > 1)
+            compressed.append(repCount);
+        compressed.append(prev);
+
+        return compressed;
     }
 }
