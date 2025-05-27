@@ -1,12 +1,5 @@
 package org.example.string;
 
-import javax.swing.*;
-
-/*
- * 메모리 89600KB
- * 시간 10.50ms
- */
-
 public class PGS_60057 {
     public static void main(String[] args) {
         // 1. 입력 데이터 설정
@@ -15,34 +8,45 @@ public class PGS_60057 {
 
         // 2. Solution 객체 생성
         Solution sol = new Solution();
-        int len = sol.solution(s2);
+        sol.solution(s2);
 
         // 3. 결과 출력
-        System.out.println(len);
+        System.out.println(sol);
     }
 
     static class Solution {
+        private String shortestCompressed = "";
+        private int minLength = 0;
+
         public int solution(String s) {
-            int minLength = s.length();
+            minLength = s.length();
 
             // 1. 압축 단위 모두 시도
             for (int unit = 1; unit <= s.length() / 2; unit++) {
-                int compressedLength = getCompressedLength(s, unit);
-                minLength = Math.min(minLength, compressedLength);
-            }
+                String compressed = getCompressedString(s, unit).toString();
 
+                if (compressed.length() < minLength) {
+                    minLength = compressed.length();
+                    shortestCompressed = compressed;
+                }
+            }
             return minLength;
         }
 
+        @Override
+        public String toString() {
+            return shortestCompressed + "\n" + minLength;
+        }
+
         /**
-         * 문자열 s를 unit으로 압축했을 때의 길이를 반환
+         * 문자열 s를 unit으로 압축했을 때의 문자열을 반환
          *
          * @param s     주어진 문자열
          * @param unit  압축 단위
          * @return
          */
-        private int getCompressedLength(String s, int unit) {
-            String compressed = "";
+        private StringBuilder getCompressedString(String s, int unit) {
+            StringBuilder compressed = new StringBuilder();
             String prev = s.substring(0, unit);
             int repCount = 1;
 
@@ -54,8 +58,8 @@ public class PGS_60057 {
                     repCount++;
                 else {
                     if (repCount > 1)
-                        compressed += repCount;
-                    compressed += prev;
+                        compressed.append(repCount);
+                    compressed.append(prev);
 
                     prev = curr;
                     repCount = 1;
@@ -64,10 +68,10 @@ public class PGS_60057 {
 
             // 3. 마지막 블록 처리
             if (repCount > 1)
-                compressed += repCount;
-            compressed += prev;
+                compressed.append(repCount);
+            compressed.append(prev);
 
-            return compressed.length();
+            return compressed;
         }
     }
 }
