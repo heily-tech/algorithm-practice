@@ -1,17 +1,17 @@
 package org.example.string;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
- * 메모리 79600KB
- * 시간 2.74ms
+ * 메모리 74830KB
+ * 시간 17.29ms
  */
 public class PGS_17677 {
     public static void main(String[] args) {
         // 1. 입력 데이터 설정
-        String str1 = "FRANCE";
-        String str2 = "french";
+        String str1 = "aa1+aa2";
+        String str2 = "AAAA12";
 
         // 2. Solution 객체 생성
         Solution sol = new Solution();
@@ -30,42 +30,47 @@ public class PGS_17677 {
          * @return      자카드 유사도 * 65536 (정수형)
          */
         public int solution(String str1, String str2) {
-            // 1. 문자열 전처리
-            String s1 = str1.toLowerCase();
-            String s2 = str2.toLowerCase();
+            // 1. 두 글자 단위 다중 집합 생성
+            Map<String, Integer> mulSetA = getMulSet(str1.toLowerCase());
+            Map<String, Integer> mulSetB = getMulSet(str2.toLowerCase());
 
-            // 2. 두 글자 단위 다중 집합 생성
-            List<String> mulSetA = getMulSet(s1);
-            List<String> mulSetB = getMulSet(s2);
+            // 2. 자카드 유사도 계산
+            int interCount = 0;
+            int uniCount = 0;
 
-            // 3. 자카드 유사도 계산
-            List<String> intersection = new ArrayList<>();
-            List<String> interTemp = new ArrayList<>(mulSetB);
-            for (String s : mulSetA) {
-                if (interTemp.contains(s)) {
-                    intersection.add(s);
-                    interTemp.remove(s);
-                }
+            for (String key : mulSetA.keySet()) {
+                int countA = mulSetA.get(key);
+                int countB = mulSetB.getOrDefault(key, 0);
+
+                interCount += Math.min(countA, countB);
+                uniCount += Math.max(countA, countB);
             }
-            double interCount = intersection.size();
-            double uniCount = mulSetA.size() + mulSetB.size() - intersection.size();
 
-            // 5. 공집합 등의 예외 처리 및 반환
-            return (int) ((uniCount == 0 ? 1 : interCount / uniCount) * 65536);
+            for (String key : mulSetB.keySet())
+                if (!mulSetA.containsKey(key))
+                    uniCount += mulSetB.get(key);  // 누락된 B의 원소 추가
+
+            return (int) ((uniCount == 0 ? 1.0 : (double) interCount / uniCount) * 65536);
         }
 
-        /*
-         * 문자열을 두 글자씩 나누어 영문자만으로 구성된 쌍을 다중 집합으로 반환
+        /**
+         * 입력 문자열을 영문자 쌍의 다중 집합으로 변환
          *
-         * @param s 입력 문자열
-         * @return  두 글자 쌍으로 나누어진 다중 집합 리스트
+         * @param s 입력 문자열 (소문자)
+         * @return 문자열 쌍의 개수를 저장한 Map
          */
-        private List<String> getMulSet(String s) {
-            List<String> mulSet = new ArrayList<>();
+        private Map<String, Integer> getMulSet(String s) {
+            Map<String, Integer> mulSet = new HashMap<>();
+
             for (int i = 0; i < s.length() - 1; i++) {
-                String subSet = s.substring(i, i+2);
-                if (subSet.matches("[a-z]{2}"))
-                    mulSet.add(subSet);
+                char c1 = s.charAt(i);
+                char c2 = s.charAt(i + 1);
+
+                // 영문자 쌍인지 검사
+                if (Character.isLetter(c1) && Character.isLetter(c2)) {
+                    String subSet = "" + c1 + c2;
+                    mulSet.put(subSet, mulSet.getOrDefault(subSet, 0) + 1);
+                }
             }
             return mulSet;
         }
