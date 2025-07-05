@@ -1,6 +1,6 @@
 package org.example.dfsbfs;
 
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.Queue;
 
 /* DFS
@@ -11,8 +11,8 @@ import java.util.Queue;
 
 /* BFS
  *
- *  메모리 101,863KB
- * 시간 51.74ms
+ *  메모리 103,890KB
+ * 시간 39.18ms
  */
 
 public class PGS_43165 {
@@ -51,13 +51,12 @@ public class PGS_43165 {
         /** BFS 큐 방식 */
         private int bfs(int[] numbers, int target) {
             int count = 0;
-            Queue<int[]> queue = new LinkedList<>();
+            Queue<int[]> queue = new ArrayDeque<>();
             queue.offer(new int[]{0, 0});
 
             while (!queue.isEmpty()) {
                 int[] curr = queue.poll();
-                int index = curr[0];
-                int sum = curr[1];
+                int index = curr[0], sum = curr[1];
 
                 if (index == numbers.length) {
                     if (sum == target)
