@@ -1,47 +1,36 @@
-import java.util.Stack;
+import java.util.Arrays;
 
 class Solution {
     public String[] solution(String[] s) {
-        String[] answer = new String[s.length];
+        return Arrays.stream(s)
+            .map(this::findPattern)
+            .toArray(String[]::new);
+    }
+    
+    private String findPattern(String s) {
+        StringBuilder buffer = new StringBuilder();
+        int cnt = 0;
         
-        for (int i = 0; i < s.length; i++) {
-            String str = s[i];
-            Stack<Character> st = new Stack<>();
-            int cnt = 0;
-            
-            // 1. 110 패턴 찾기
-            for (char ch : str.toCharArray()) {
-                st.push(ch);
-                if (st.size() >= 3) {
-                    int p = st.size();
-                    if (st.get(p-3) == '1'
-                        && st.get(p-2) == '1'
-                        && st.get(p-1) == '0') {
-                        st.pop();
-                        st.pop();
-                        st.pop();
-                        cnt++;
-                    }
-                }
+        for (char ch : s.toCharArray()) {
+            buffer.append(ch);
+            int len = buffer.length();
+            if (len >= 3 &&
+               buffer.charAt(len - 3) == '1' &&
+               buffer.charAt(len - 2) == '1' &&
+               buffer.charAt(len - 1) == '0') {
+                buffer.setLength(len - 3);
+                cnt++;
             }
-            
-            // 2. 패턴 재삽입
-            StringBuilder pattern = new StringBuilder();
-            while (!st.isEmpty())
-                pattern.append(st.pop());
-            pattern.reverse();
-            
-            int insertPos = pattern.lastIndexOf("0") + 1;
-            StringBuilder result = new StringBuilder(pattern);
-            for (int j = 0; j < cnt; j++) {
-                result.insert(insertPos, "110");
-                insertPos += 3;
-            }
-            
-            answer[i] = result.toString();
-            
         }
+        return insertPattern(buffer.toString(), cnt);
+    }
+    
+    private String insertPattern(String s, int cnt) {
+        int pos = s.lastIndexOf("0") + 1;
+        StringBuilder sb = new StringBuilder(s);
+        for (int i = 0; i < cnt; i++)
+            sb.insert(pos, "110");
         
-        return answer;
+        return sb.toString();
     }
 }
