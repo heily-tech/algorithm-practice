@@ -6,8 +6,7 @@ public class Main {
     private static class Team {
         int id;
         List<Integer> scores = new ArrayList<>();
-        int fourScore;
-        int fifth;
+        int fourScore, fifth;
 
         Team(int id) {
             this.id = id;
@@ -32,36 +31,36 @@ public class Main {
             int N = Integer.parseInt(br.readLine());
             StringTokenizer st = new StringTokenizer(br.readLine());
 
-            // 1️⃣ 팀 인원 세기
+            // 팀 인원 세기
             Map<Integer, Integer> freq = new HashMap<>();
-            int[] input = new int[N];
+            List<Integer> order = new ArrayList<>();
             for (int i = 0; i < N; i++) {
-                input[i] = Integer.parseInt(st.nextToken());
-                freq.put(input[i], freq.getOrDefault(input[i], 0) + 1);
+                int team = Integer.parseInt(st.nextToken());
+                order.add(team);
+                freq.put(team, freq.getOrDefault(team, 0) + 1);
             }
 
-            // 2️⃣ 유효팀만 생성
+            // 유효팀만 생성
             Map<Integer, Team> teams = new HashMap<>();
             int score = 1;
-            for (int teamId : input) {
-                if (freq.get(teamId) < 6) continue; // ❗6명 미만 제외
+            for (int teamId : order) {
+                if (freq.get(teamId) < 6) 
+                    continue;
                 teams.computeIfAbsent(teamId, Team::new).addScore(score++);
             }
 
-            // 3️⃣ 유효팀 점수 계산
-            List<Team> validTeams = new ArrayList<>(teams.values());
-            for (Team team : validTeams) team.calculate();
-
-            // 4️⃣ 우승팀 찾기
-            Team winner = validTeams.get(0);
-            for (Team team : validTeams) {
-                if (team.fourScore < winner.fourScore ||
-                   (team.fourScore == winner.fourScore && team.fifth < winner.fifth)) {
+            // 유효팀 점수 계산
+            Team winner = null;
+            for (Team team : teams.values()) {
+                team.calculate();
+                if (winner == null ||
+                    team.fourScore < winner.fourScore ||
+                    (team.fourScore == winner.fourScore && team.fifth < winner.fifth)) {
                     winner = team;
                 }
             }
 
-            // 5️⃣ 출력
+            // 출력
             System.out.println(winner.id);
         }
     }
