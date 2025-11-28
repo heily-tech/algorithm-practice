@@ -43,7 +43,7 @@ public class Main {
             Map<Integer, Team> teams = new HashMap<>();
             int score = 1;
             for (int teamId : input) {
-                if (freq.get(teamId) < 6) continue; // ❗6명 미만 제외
+                if (freq.get(teamId) < 6) continue; // 6명 미만 제외
                 teams.computeIfAbsent(teamId, Team::new).addScore(score++);
             }
 
