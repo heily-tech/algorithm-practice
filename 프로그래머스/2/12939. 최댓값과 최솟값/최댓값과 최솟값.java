@@ -1,27 +1,27 @@
 class Solution {
     public String solution(String s) {
-        String[] strs = s.split(" ");
-        int[] nums = new int[strs.length];
+        if (s == null || s.trim().isEmpty())
+            throw new IllegalArgumentException("입력이 비어 있습니다.");
 
-        for (int i = 0; i < strs.length; i++)
-            nums[i] = Integer.parseInt(strs[i]);
+        String[] strs = s.trim().split("\\s+");
 
-        return getMin(nums) + " " + getMax(nums);
-    }
-    
-    private int getMin(int[] nums) {
         int min = Integer.MAX_VALUE;
-        for (int num : nums)
-            if (min > num)
-                min = num;
-        return min;
-    }
-
-    private int getMax(int[] nums) {
         int max = Integer.MIN_VALUE;
-        for (int num : nums)
-            if (max < num)
+
+        for (String str : strs) {
+            int num;
+            try {
+                num = Integer.parseInt(str);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("숫자가 아닌 값이 포함되어 있습니다: " + str);
+            }
+
+            if (num < min)
+                min = num;
+            if (num > max)
                 max = num;
-        return max;
+        }
+
+        return min + " " + max;
     }
 }
