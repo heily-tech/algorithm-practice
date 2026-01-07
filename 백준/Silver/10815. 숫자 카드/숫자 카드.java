@@ -12,7 +12,7 @@ class Main {
         int N = Integer.parseInt(br.readLine());
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        Set<Integer> cardSet = new HashSet<>();
+        Set<Integer> cardSet = new HashSet<>(N);
         for (int i = 0; i < N; i++)
             cardSet.add(Integer.parseInt(st.nextToken()));
 
@@ -21,8 +21,7 @@ class Main {
 
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < M; i++) {
-            int x = Integer.parseInt(st.nextToken());
-            sb.append(cardSet.contains(x) ? "1 " : "0 ");
+            sb.append(cardSet.contains(Integer.parseInt(st.nextToken())) ? '1' : '0').append(' ');
         }
 
         sb.setLength(sb.length() - 1);
