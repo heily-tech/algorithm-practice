@@ -8,7 +8,7 @@ class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
-        Map<String, Integer> bookSell = new HashMap(N);
+        Map<String, Integer> bookSell = new HashMap<>((int)(N / 0.75f) + 1);
 
         for (int i = 0; i < N; i++) {
             String key = br.readLine();
