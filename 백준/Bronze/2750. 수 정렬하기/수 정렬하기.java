@@ -1,25 +1,32 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 
-public class Main {
+class Main {
     public static void main(String[] args) throws IOException {
-        // 1. 입력 받기
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
-        int[] numbers = new int[n];
 
-        for (int i = 0; i < n; i++) {
-            numbers[i] = Integer.parseInt(br.readLine());
-        }
+        int N = Integer.parseInt(br.readLine());
+        int[] nums = new int[N];
 
-        // 2. 수 정렬하기 (퀵 정렬)
-        Arrays.sort(numbers);
+        for (int i = 0; i < N; i++)
+            nums[i] = Integer.parseInt(br.readLine());
 
-        // 3. 정렬된 수 출력하기
-        for (int i : numbers) {
-            System.out.println(i);
+        bubbleSort(nums, N);
+
+        for (int num : nums)
+            System.out.println(num);
+    }
+
+    private static void bubbleSort(int[] nums, int N) {
+        for (int i = 0; i < N - 1; i++) {
+            for (int j = 0; j < N - 1; j++) {
+                if (nums[j] > nums[j+1]) {
+                    int temp = nums[j];
+                    nums[j] = nums[j+1];
+                    nums[j+1] = temp;
+                }
+            }
         }
     }
 }
