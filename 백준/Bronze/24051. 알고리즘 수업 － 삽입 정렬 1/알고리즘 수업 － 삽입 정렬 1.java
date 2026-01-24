@@ -27,9 +27,10 @@ class Main {
             int curr = i - 1;
 
             while (curr >= 0 && newItem < arr[curr]) {
-                arr[curr + 1] = arr[curr];
+                int saved = arr[curr];
+                arr[curr + 1] = saved;
                 if (++cnt == K) {
-                    System.out.println(arr[curr + 1]);
+                    System.out.println(saved);
                     return;
                 }
                 curr--;
