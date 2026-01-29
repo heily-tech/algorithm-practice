@@ -22,8 +22,7 @@ public class Main {
 
             while (sum >= s) {
                 ans = Math.min(ans, right - left + 1);
-                sum -= arr[left];
-                left++;
+                sum -= arr[left++];
             }
         }
 
