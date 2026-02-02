@@ -8,25 +8,25 @@ class Solution {
 
         return Math.max(candidateA, candidateB);
     }
-    
-    private static int getCandidate(int gcd, int[] array) {
-        for (int i : array)
-            if (i % gcd == 0)
-                return 0;
+
+    private int getCandidate(int gcd, int[] opponent) {
+        if (gcd == 1) return 0;
+        for (int v : opponent)
+            if (v % gcd == 0) return 0;
+        
         return gcd;
     }
 
-    private static int getArrayGCD(int[] array) {
+    private int getArrayGCD(int[] array) {
         int gcd = array[0];
-        for (int i = 0; i < array.length; i++) {
+        for (int i = 1; i < array.length; i++) {
             gcd = getGCD(gcd, array[i]);
-            if (gcd == 1)
-                return 1;
+            if (gcd == 1) return 1;
         }
         return gcd;
     }
 
-    private static int getGCD(int x, int y) {
+    private int getGCD(int x, int y) {
         while (y != 0) {
             int r = x % y;
             x = y;
