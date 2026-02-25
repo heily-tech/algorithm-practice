@@ -1,56 +1,43 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    /* 트리를 구성할 기본 정보 */
-    static class Node {
-        int data;
-        Node left_child;
-        Node right_child;
+    static int[] pre;
+    static int idx = 0;
+    static StringBuilder sb = new StringBuilder();
 
-        private Node(int data) {
-            this.data = data;
-        }
+    // bound 보다 큰 값이 나오면 현재 서브트리 종료
+    static void buildPost(int bound) {
+        if (idx == pre.length) return;
+        int val = pre[idx];
+        if (val > bound) return;
 
-        private void insert(int x) {
-            if (x < this.data) {
-                if (this.left_child == null)
-                    this.left_child = new Node(x);
-                else
-                    this.left_child.insert(x);
-            } else {
-                if (this.right_child == null)
-                    this.right_child = new Node(x);
-                else
-                    this.right_child.insert(x);
-            }
-        }
+        idx++;
+
+        // 왼쪽: val 보다 작은 값들만 들어올 수 있으니 bound = val
+        buildPost(val);
+
+        // 오른쪽: bound는 그대로 유지 (현재 서브트리의 상한)
+        buildPost(bound);
+
+        sb.append(val).append('\n');
     }
 
-    private static void postOrder(Node node) {
-        if (node != null) {
-            postOrder(node.left_child);
-            postOrder(node.right_child);
-            System.out.printf("%d\n", node.data);
-        }
-    }
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        ArrayList<Integer> list = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-
-        Node root = new Node(Integer.parseInt(bufferedReader.readLine()));
-
-        /* 전위 순회 정보를 이용하여 트리 그리기 */
         while (true) {
-            String s = bufferedReader.readLine();
-            if (s == null || s.equals(""))
-                break;
-            int data = Integer.parseInt(s);
-            root.insert(data);
+            String s = br.readLine();
+            if (s == null || s.isEmpty()) break;
+            list.add(Integer.parseInt(s));
         }
 
-        /* 그려진 트리를 후위 순회하기 */
-        postOrder(root);
+        pre = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) pre[i] = list.get(i);
+
+        buildPost(Integer.MAX_VALUE);
+
+        System.out.print(sb);
     }
 }
